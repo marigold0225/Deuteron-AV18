@@ -190,10 +190,20 @@ E_max = -2
 r0 = 0.0
 delta = 0.01
 d2 = delta**2 / 12.0
-n = 500
+n = 2500
 r = np.linspace(r0, r0 + delta * n, n + 1)
 
 E, u, w = norm_uw()
+
+plt.figure(figsize=(12, 6))
+plt.plot(r, u, label='Radial Wave Function u(r)')
+plt.plot(r, w, label='Radial Wave Function w(r)')
+plt.title("Radial Wave Functions")
+plt.xlabel('Radius r (fm)')
+plt.ylabel('Wave Function')
+plt.legend()
+plt.grid(True)
+plt.show()
 
 
 def fourier_transform(func_values, k, r_values):
@@ -202,34 +212,26 @@ def fourier_transform(func_values, k, r_values):
     normalization_factor = 1 / np.sqrt(2 * np.pi)
     return result * normalization_factor
 
-
 k_values = np.linspace(0, 10, 200)
 
-u = [fourier_transform(u, k, r) for k in k_values]
-w = [fourier_transform(w, k, r) for k in k_values]
+# u = [fourier_transform(u, k, r) for k in k_values]
+# w = [fourier_transform(w, k, r) for k in k_values]
 
-# 计算球谐函数
 theta = np.pi / 2  # np.linspace(0, np.pi, n+1)
 phi = np.pi  # np.linspace(0, 2 * np.pi, n+1)
 theta, phi = np.meshgrid(theta, phi)
 Y_00 = sph_harm(0, 0, phi, theta)
 Y_21 = sph_harm(1, 2, phi, theta)
-# 计算波函数 phi = u(r) * Y_lm + w(r) * Y_lm
 phi = u * Y_00 + w * Y_21
 
-# 计算傅里叶变换
-phi_k_values = []
-for k in k_values:
-    phi_k = np.trapz(phi * np.exp(-1j * k * r) * r**2, r)
-    phi_k_values.append(phi_k)
+phi_k_values = [fourier_transform(phi, k, r) for k in k_values]
 
-# 绘图
-plt.figure(figsize=(10, 6))
-plt.plot(k_values, np.real(phi_k_values), label="Real Phi")
-plt.plot(k_values, np.imag(phi_k_values), label="Imaginary Phi")
-plt.xlabel("k")
-plt.ylabel("Normalization Integral")
-plt.title("Wave Function Phi vs Momentum k")
+plt.figure(figsize=(12, 6))
+plt.plot(k_values, np.real(phi_k_values), label='Real part of Phi(k)')
+plt.plot(k_values, np.imag(phi_k_values), label='Imaginary part of Phi(k)')
+plt.title("Fourier Transform of Wave Function Phi in Momentum Space")
+plt.xlabel("Momentum k (1/fm)")
+plt.ylabel("Fourier Transform")
 plt.legend()
 plt.grid(True)
 plt.show()

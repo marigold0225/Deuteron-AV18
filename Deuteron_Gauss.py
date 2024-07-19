@@ -83,6 +83,6 @@ if __name__ == "__main__":
         plt.legend()
         plt.grid()
         plt.show()
-        plt.save("Fig-Gauss")
+        plt.savefig("Fig-Gauss")
     else:
         print("Energy eigenvalue E not found within the given range.")
