@@ -82,7 +82,7 @@ if __name__ == "__main__":
         plt.title("Deuteron Wave Function with Gauss potential")
         plt.legend()
         plt.grid()
-        plt.show()
         plt.savefig("Fig-Gauss")
+        plt.show()
     else:
         print("Energy eigenvalue E not found within the given range.")

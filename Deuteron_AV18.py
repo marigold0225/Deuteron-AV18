@@ -196,42 +196,44 @@ r = np.linspace(r0, r0 + delta * n, n + 1)
 E, u, w = norm_uw()
 
 plt.figure(figsize=(12, 6))
-plt.plot(r, u, label='Radial Wave Function u(r)')
-plt.plot(r, w, label='Radial Wave Function w(r)')
+plt.plot(r, u/r, label='Radial Wave Function u(r)/r')
+plt.plot(r, w/r, label='Radial Wave Function w(r)/r')
+plt.xlim(0,5)
 plt.title("Radial Wave Functions")
 plt.xlabel('Radius r (fm)')
 plt.ylabel('Wave Function')
 plt.legend()
 plt.grid(True)
+plt.savefig("Fig-Deuteron.png")
 plt.show()
 
 
-def fourier_transform(func_values, k, r_values):
-    integrand = func_values * np.exp(-1j * k * r_values) * r_values**2
-    result = np.trapz(integrand, r_values)
-    normalization_factor = 1 / np.sqrt(2 * np.pi)
-    return result * normalization_factor
+# def fourier_transform(func_values, k, r_values):
+#     integrand = func_values * np.exp(-1j * k * r_values) * r_values**2
+#     result = np.trapz(integrand, r_values)
+#     normalization_factor = 1 / np.sqrt(2 * np.pi)
+#     return result * normalization_factor
 
-k_values = np.linspace(0, 10, 200)
+# k_values = np.linspace(0, 10, 200)
 
-# u = [fourier_transform(u, k, r) for k in k_values]
-# w = [fourier_transform(w, k, r) for k in k_values]
+# # u = [fourier_transform(u, k, r) for k in k_values]
+# # w = [fourier_transform(w, k, r) for k in k_values]
 
-theta = np.pi / 2  # np.linspace(0, np.pi, n+1)
-phi = np.pi  # np.linspace(0, 2 * np.pi, n+1)
-theta, phi = np.meshgrid(theta, phi)
-Y_00 = sph_harm(0, 0, phi, theta)
-Y_21 = sph_harm(1, 2, phi, theta)
-phi = u * Y_00 + w * Y_21
+# theta = np.pi / 2  # np.linspace(0, np.pi, n+1)
+# phi = np.pi  # np.linspace(0, 2 * np.pi, n+1)
+# theta, phi = np.meshgrid(theta, phi)
+# Y_00 = sph_harm(0, 0, phi, theta)
+# Y_21 = sph_harm(1, 2, phi, theta)
+# phi = u * Y_00 + w * Y_21
 
-phi_k_values = [fourier_transform(phi, k, r) for k in k_values]
+# phi_k_values = [fourier_transform(phi, k, r) for k in k_values]
 
-plt.figure(figsize=(12, 6))
-plt.plot(k_values, np.real(phi_k_values), label='Real part of Phi(k)')
-plt.plot(k_values, np.imag(phi_k_values), label='Imaginary part of Phi(k)')
-plt.title("Fourier Transform of Wave Function Phi in Momentum Space")
-plt.xlabel("Momentum k (1/fm)")
-plt.ylabel("Fourier Transform")
-plt.legend()
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(12, 6))
+# plt.plot(k_values, np.real(phi_k_values), label='Real part of Phi(k)')
+# plt.plot(k_values, np.imag(phi_k_values), label='Imaginary part of Phi(k)')
+# plt.title("Fourier Transform of Wave Function Phi in Momentum Space")
+# plt.xlabel("Momentum k (1/fm)")
+# plt.ylabel("Fourier Transform")
+# plt.legend()
+# plt.grid(True)
+# plt.show()
